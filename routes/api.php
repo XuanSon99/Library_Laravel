@@ -26,12 +26,12 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('users', 'App\Http\Controllers\UserController');
-    Route::resource('readers', 'App\Http\Controllers\ReaderController');
-    Route::resource('authors', 'App\Http\Controllers\AuthorController');
-    Route::resource('publishers', 'App\Http\Controllers\PublisherController');
-    Route::resource('languages', 'App\Http\Controllers\LanguageController');
-    Route::resource('bills', 'App\Http\Controllers\BillController');
-    Route::resource('documents', 'App\Http\Controllers\DocumentController');
-    Route::resource('fields', 'App\Http\Controllers\FieldController');
+    Route::resource('teachers', 'App\Http\Controllers\TeacherController');
+    Route::resource('scores', 'App\Http\Controllers\ScoreController');
+    Route::resource('students', 'App\Http\Controllers\StudentController');
+    Route::resource('subjects', 'App\Http\Controllers\SubjectController');
+    Route::resource('classrooms', 'App\Http\Controllers\ClassroomController');
+    Route::resource('grade-level', 'App\Http\Controllers\GradeLevelController');
+    Route::resource('type-mark', 'App\Http\Controllers\TypeMarkController');
 });
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Field;
+use App\Models\GradeLevel;
 use Illuminate\Http\Request;
 use Validator;
 
-class FieldController extends Controller
+class GradeLevelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class FieldController extends Controller
      */
     public function index()
     {
-        return Field::orderBy('created_at', 'DESC')->get();
+        return GradeLevel::orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -27,58 +27,54 @@ class FieldController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            // 'code' => 'required|unique:Fields',
             'name' => 'required|string',
-            'note' => 'required|string',
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
         }
-        Field::create($request->all());
+        GradeLevel::create($request->all());
         return response()->json(["status" => true, "data" => $request->all()], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Field  $Field
+     * @param  \App\Models\GradeLevel  $GradeLevel
      * @return \Illuminate\Http\Response
      */
-    public function show(Field $field)
+    public function show(GradeLevel $GradeLevel)
     {
-        return $field;
+        return $GradeLevel;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Field  $Field
+     * @param  \App\Models\GradeLevel  $GradeLevel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Field $field)
+    public function update(Request $request, GradeLevel $GradeLevel)
     {
         $validate = Validator::make($request->all(), [
-            // 'code' => 'required',
             'name' => 'required|string',
-            'note' => 'required|string',
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
         }
-        $field->update($request->all());
+        $GradeLevel->update($request->all());
         return response()->json(["status" => true, "data" => $request->all()], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Field  $Field
+     * @param  \App\Models\GradeLevel  $GradeLevel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Field $field)
+    public function destroy(GradeLevel $GradeLevel)
     {
-        $field->delete();
+        $GradeLevel->delete();
         return response()->json(["status" => true], 200);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bill;
+use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Validator;
 
-class BillController extends Controller
+class ClassroomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,22 +15,29 @@ class BillController extends Controller
      */
     public function index()
     {
-        $listBill = Bill::orderBy('created_at', 'DESC')->get();
+        $listClassroom = Classroom::orderBy('created_at', 'DESC')->get();
         $data = [];
-        foreach ($listBill as $bill) {
-            $reader = Bill::find($bill->id)->getReader->first();
-            $document = Bill::find($bill->id)->getDocument->first();
+        foreach ($listClassroom as $Classroom) {
+            $teacher = Classroom::find($Classroom->id)->getTeacher->first();
             $list = new \stdClass();
-            $list->id = $bill->id;
-            $list->reader = $reader;
-            $list->document = $document;
-            $list->lender = $bill->lender;
-            $list->borrow_time = $bill->borrow_time;
-            $list->return_time = $bill->return_time;
-            $list->status = $bill->status;
+            $list->id = $Classroom->id;
+            $list->teacher = $teacher;
+            $list->name = $Classroom->name;
+            $list->teacher_id = $Classroom->teacher_id;
+            $list->member = $Classroom->member;
             array_push($data, $list);
         }
         return $data;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -42,64 +49,69 @@ class BillController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'student_id' => 'required',
-            'document_id' => 'required',
-            'lender' => 'required|string',
-            'borrow_time' => 'required|date',
-            'return_time' => 'required|date',
-            'status' => 'required|in:ok,not'
+            "name" => 'required|string',
+            "teacher_id" => 'required',
+            "member" => 'required|integer'
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
         }
-        Bill::create($request->all());
+        Classroom::create($request->all());
         return response()->json(["status" => true, "data" => $request->all()], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Bill  $bill
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function show(Bill $bill)
+    public function show(Classroom $classroom)
     {
-        return $bill;
+        return $classroom;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Classroom  $classroom
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Classroom $classroom)
+    {
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bill  $bill
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bill $bill)
+    public function update(Request $request, Classroom $classroom)
     {
         $validate = Validator::make($request->all(), [
-            'student_id' => 'required',
-            'document_id' => 'required',
-            'lender' => 'required|string',
-            'borrow_time' => 'required|date',
-            'return_time' => 'required|date',
-            'status' => 'required|in:ok,not'
+            "name" => 'required|string',
+            "teacher_id" => 'required',
+            "member" => 'required|integer'
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
         }
-        $bill->update($request->all());
+        $classroom->update($request->all());
         return response()->json(["status" => true, "data" => $request->all()], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Bill  $bill
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bill $bill)
+    public function destroy(Classroom $classroom)
     {
-        $bill->delete();
+        $classroom->delete();
         return response()->json(["status" => true], 200);
     }
 }

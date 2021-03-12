@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Language;
+use App\Models\TypeMark;
 use Illuminate\Http\Request;
 use Validator;
 
-class LanguageController extends Controller
+class TypeMarkController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        return Language::orderBy('created_at', 'DESC')->get();
+        return TypeMark::orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -27,58 +27,56 @@ class LanguageController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            // 'code' => 'required|unique:languages',
-            'name' => 'required|string',
-            'note' => 'required|string',
+            "name" => 'required|string',
+            "note" => 'required|string'
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
         }
-        Language::create($request->all());
+        TypeMark::create($request->all());
         return response()->json(["status" => true, "data" => $request->all()], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Language  $Language
+     * @param  \App\Models\TypeMark  $TypeMark
      * @return \Illuminate\Http\Response
      */
-    public function show(Language $language)
+    public function show(TypeMark $TypeMark)
     {
-        return $language;
+        return $TypeMark;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Language  $Language
+     * @param  \App\Models\TypeMark  $TypeMark
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Language $language)
+    public function update(Request $request, TypeMark $TypeMark)
     {
         $validate = Validator::make($request->all(), [
-            // 'code' => 'required',
-            'name' => 'required|string',
-            'note' => 'required|string',
+            "name" => 'required|string',
+            "note" => 'required|string'
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
         }
-        $language->update($request->all());
+        $TypeMark->update($request->all());
         return response()->json(["status" => true, "data" => $request->all()], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Language  $Language
+     * @param  \App\Models\TypeMark  $TypeMark
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Language $language)
+    public function destroy(TypeMark $TypeMark)
     {
-        $language->delete();
+        $TypeMark->delete();
         return response()->json(["status" => true], 200);
     }
 }

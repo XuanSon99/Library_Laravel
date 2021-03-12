@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLanguagesTable extends Migration
+class CreateStudentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('languages', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->text("note");
+            $table->unsignedBigInteger("class_id");
+            $table->string("address");
+            $table->date("birthday");
+            $table->enum("gender", ["male","female"]);
             $table->timestamps();
+
+            // $table->foreign("class_id")->references("id")->on("classrooms");
         });
     }
 
@@ -28,6 +33,6 @@ class CreateLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('languages');
+        Schema::dropIfExists('students');
     }
 }
