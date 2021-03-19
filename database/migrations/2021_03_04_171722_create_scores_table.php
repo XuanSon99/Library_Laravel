@@ -17,19 +17,11 @@ class CreateScoresTable extends Migration
             $table->id();
             $table->unsignedBigInteger("student_id");
             $table->unsignedBigInteger("subject_id");
-            $table->unsignedBigInteger("teacher_id");
-            $table->unsignedBigInteger("class_id");
             $table->unsignedBigInteger("type_score");
-            $table->unsignedBigInteger("grade_level");
             $table->float("score");
             $table->timestamps();
 
-            $table->foreign("student_id")->references("id")->on("students");
-            $table->foreign("subject_id")->references("id")->on("subjects");
-            $table->foreign("teacher_id")->references("id")->on("teachers");
-            $table->foreign("class_id")->references("id")->on("classrooms");
-            $table->foreign("type_score")->references("id")->on("type_marks");
-            // $table->foreign("grade_level")->references("id")->on("grade_levels");
+            $table->foreign("student_id")->references("id")->on("students")->onDelete('cascade');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -19,12 +20,16 @@ class ClassroomController extends Controller
         $data = [];
         foreach ($listClassroom as $Classroom) {
             $teacher = Classroom::find($Classroom->id)->getTeacher->first();
+            $khoi = Classroom::find($Classroom->id)->getKhoi->first();
+            $member = Student::where("class_id", $Classroom->id)->get()->count();
             $list = new \stdClass();
             $list->id = $Classroom->id;
             $list->teacher = $teacher;
+            $list->khoi = $khoi;
             $list->name = $Classroom->name;
             $list->teacher_id = $Classroom->teacher_id;
-            $list->member = $Classroom->member;
+            $list->khoi_id = $Classroom->khoi_id;
+            $list->member = $member;
             array_push($data, $list);
         }
         return $data;
@@ -68,7 +73,7 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
-        return $classroom;
+        return Student::where("class_id", $classroom->id)->get();
     }
 
     /**

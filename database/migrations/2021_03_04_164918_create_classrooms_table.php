@@ -17,10 +17,10 @@ class CreateClassroomsTable extends Migration
             $table->id();
             $table->string("name");
             $table->unsignedBigInteger("teacher_id");
-            $table->integer("member");
+            $table->unsignedBigInteger("khoi_id");
             $table->timestamps();
 
-            $table->foreign("teacher_id")->references("id")->on("teachers");
+            $table->foreign("teacher_id")->references("id")->on("teachers")->onDelete('cascade');
         });
     }
 

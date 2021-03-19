@@ -28,7 +28,6 @@ class SubjectController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name' => 'required|string',
-            'description' => 'required|string',
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
@@ -58,8 +57,7 @@ class SubjectController extends Controller
     public function update(Request $request, Subject $Subject)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'description' => 'required|string',
+            'name' => 'required|string'
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);

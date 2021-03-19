@@ -12,9 +12,6 @@ class Score extends Model
         "student_id",
         "subject_id",
         "type_score",
-        "teacher_id",
-        "class_id",
-        "grade_level",
         "score"
     ];
     public function getStudent()

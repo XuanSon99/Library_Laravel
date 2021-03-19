@@ -11,10 +11,14 @@ class Classroom extends Model
     protected $fillable = [
         "name",
         "teacher_id",
-        "member"
+        "khoi_id",
     ];
     public function getTeacher()
     {
         return $this->hasMany('App\Models\Teacher', 'id', 'teacher_id')->select('id', 'name');
+    }
+    public function getKhoi()
+    {
+        return $this->hasMany('App\Models\GradeLevel', 'id', 'khoi_id')->select('id', 'name');
     }
 }

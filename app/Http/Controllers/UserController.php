@@ -29,7 +29,8 @@ class UserController extends Controller
         $validate = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            "level" => 'required|in:teacher,student',
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
@@ -37,7 +38,8 @@ class UserController extends Controller
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'level' => $request->level,
         ]);
         $user->save();
         // User::create($request->all());
@@ -66,7 +68,8 @@ class UserController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name' => 'string',
-            'password' => 'string|confirmed'
+            'password' => 'string|confirmed',
+            "level" => 'required|in:teacher,student',
         ]);
         if ($validate->fails()) {
             return response()->json(["status" => false, "error" => $validate->errors()], 400);
@@ -83,7 +86,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if($user->email == "admin@gmail.com"){
+        if ($user->email == "admin@gmail.com") {
             return response()->json(["status" => false], 400);
         }
         $user->delete();

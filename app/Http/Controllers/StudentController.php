@@ -13,9 +13,13 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($class_id)
     {
-        $listStudent = Student::orderBy('created_at', 'DESC')->get();
+        if ($class_id != "all") {
+            $listStudent = Student::where("class_id", $class_id)->orderBy('created_at', 'DESC')->get();
+        } else {
+            $listStudent = Student::orderBy('created_at', 'DESC')->get();
+        }
         $data = [];
         foreach ($listStudent as $student) {
             $classroom = Student::find($student->id)->getClass->first();
